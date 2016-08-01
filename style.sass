@@ -1,0 +1,35 @@
+body
+  display: flex
+  justify-content: center
+  align-items: center
+
+
+@mixin circle($height, $width, $background, $border-radius)
+  height: $height
+  width: $width
+  background: $background
+  border-radius: $border-radius
+  margin: 15px
+
+.wrapper-circle
+  display: flex
+  background: black
+  align-items: center
+  justify-content: center
+  flex-wrap: wrap
+
+
+
+#top-left
+  @include circle (100px, 100px, green, 0px)
+
+#top-right
+  @include circle (100px, 100px, yellow, 0px)
+
+
+#bottom-left
+  @include circle (100px, 100px, blue, 0px)
+
+#bottom-right
+  @include circle (100px, 100px, red, 0px)
+
