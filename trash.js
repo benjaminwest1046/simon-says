@@ -57,3 +57,41 @@ for (var i = 0; i < names.length, i++) {
 //can i track when they click
 //queryselectorall
 */
+
+
+if (ready) {
+    console.log(" I am working")
+    for (i = 0; i < buttonClicked.length; i++) {
+      buttonClicked[i].addEventListener("click", function(){
+      userClicks.push(this.id)
+    }
+    });
+      if (userClicks[i] != sequenceArray[i]) {
+        console.log(userClicks[i] + " ------- " + sequenceArray[i])
+        console.log("I am also working")
+        alert("You lose");
+        //resetBoard();
+      }
+    }
+  }
+}
+
+
+
+
+
+
+function checkLoss () {
+  if (ready){
+    for (var i = 0; i < sequenceArray.length; i++) {
+      if (userClicks[i] != sequenceArray[i]) {
+        alert("You lose");
+      }
+    }
+  userClicks = [];
+  setTimeout(function() {
+    playSequence();
+  },100)
+  playSequence();
+  }
+}
