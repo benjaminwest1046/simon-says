@@ -17,3 +17,6 @@ https://trello.com/b/1XoUz47S/simon-says
 4. Once the sequence is done, listen for clicks and add clicks to a second array. 
 5. Now, compare the sequence array and the user clicks array and if they are the same, add a new button to the sequence array and loop through the sequence again. 
 6. If they arrays do not match, show an alert letting the player know they lost and reset the board
+
+###Live Demo
+A live demo of the game can be found here: http://miner-whale-56222.bitballoon.com/
