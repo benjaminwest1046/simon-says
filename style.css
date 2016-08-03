@@ -10,7 +10,9 @@ button {
   border: none;
   margin: 15px;
 }
-
+#checkloss, #resetclasses {
+  display: none;
+}
 .wrapper-circle {
   display: flex;
   background: black;
@@ -22,6 +24,7 @@ button {
   height: 100px;
   width: 100px;
   background: #e74c3c;
+  opacity: .5;
   border-radius: 0px;
   margin: 15px; }
 
@@ -29,13 +32,19 @@ button {
   height: 100px;
   width: 100px;
   background: #f1c40f;
+  opacity: .5;
   border-radius: 0px;
   margin: 15px; }
+
+#lit {
+  opacity: 1;
+}
 
 #bottom-left {
   height: 100px;
   width: 100px;
   background: #3498db;
+  opacity: .5;
   border-radius: 0px;
   margin: 15px; }
 
@@ -43,6 +52,7 @@ button {
   height: 100px;
   width: 100px;
   background: #34495e;
+  opacity: .5;
   border-radius: 0px;
   margin: 15px; }
 

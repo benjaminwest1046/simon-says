@@ -1,81 +1,127 @@
-window.onload = function() {
-
   var board = {
+    sequence: [],
+    copy: [],
+    active: true,
+    /*
     name: "Simon-Says",
     activeButton: "white",
-  }
+    topRight: document.getElementById("top-right").id,
+    topLeft: document.getElementById("top-left").id,
+    bottomRight: document.getElementById("bottom-right").id,
+    bottomLeft: document.getElementById("bottom-left").id,
+    buttons: [topRight, topLeft, bottomRight, bottomLeft],
+    userClicks: [],
+    sequenceArray: [topRight, topLeft],
+    buttonClicked: document.getElementsByClassName("buttons"),
+    ready: false,
+    */
+    init: function() {
+      var self = this;
+      $('data-action=start]').on('click', function() {
+        console.log("this got logged")
+        self.newGame()
+      })
+    },
 
-}
-var topRight    = document.getElementById("top-right").id
-var topLeft     =  document.getElementById("top-left").id
-var bottomRight = document.getElementById("bottom-right").id
-var bottomLeft  = document.getElementById("bottom-left").id
-var buttons = [topRight, topLeft, bottomRight, bottomLeft]
-var userClicks = [];
-var sequenceArray = [topRight, topLeft];
-var buttonClicked = document.getElementsByClassName("buttons");
-var ready = true
+    newGame: function() {
+      this.sequence = [];
+      this.copy = [];
+      this.round = 0;
+      this.activate = true
+      this.newRound();
+    },
 
-function allowClicks() {
-  for (var i = 0; i < buttonClicked.length; i++) {
-      buttonClicked[i].addEventListener("click", function(){
-      userClicks.push(this.id)
-      console.log(userClicks)
-      if (userClicks.length == sequenceArray.length) {
-        checkLoss();
+    newRound: function() {
+      this.sequence.push(Math.floor((Math.random()*4)+1));
+      this.copy = this.sequence.slick(0);
+      this.animate(this.sequence);
+    },
+
+    animate: function(sequence) {
+      var i = 0;
+      var self = this;
+      var interval = setInterval(function() {
+        self.lightUp(sequence[i]);
+        i++
+        if (i >= sequence.length) {
+          clearInterval(interval);
+          self.activateBoard();
+        }
+      }, 500);
+    },
+
+    lightUp: function(tile) {
+      var $tile = $('[data-tile=' + tile + ']').addClass('lit');
+      window.setTimeout(function() {
+        $tile.removeClass('lit');
+      }, 300);
+    },
+
+    activateClicks: function() {
+      var self = this;
+      $('.wrapper-circle')
+        .on('click', '[data-tile]', function(ele) {
+          self.registerClick(ele);
+        })
+    },
+
+    deactivateClicks: function() {
+      $('.wrapper-circle')
+        .off('click', '[data-tile}')
+    },
+
+    trackClick: function(ele) {
+      var desiredResponse = this.copy.shift();
+      var actualResponse = $(ele.target).data('tile');
+      this.active = (desiredResponse === actualResponse);
+      this.checkLoss();
+    },
+
+    checkLoss: function() {
+      if (this.copy.length === 0 && this.active) {
+        this.deactivateBoard();
+        this.newRound();
+      } else if (!this.active) {
+        this.deactivateClicks();
       }
-      });
-    }
-}
-function checkLoss () {
-  if (ready) {
-    for (var i = 0; i < userClicks.length; i++) {
-      console.log("Its looping")
-      if (userClicks[i] != sequenceArray[i]) {
-        alert("You loose");
-        //resetBoard();
-        i = 100
-      } else {
-        userClicks = [];
-        playSequence();
-      }
-    }
+    },
   }
-}
 
-//Sequencing
-function delayedPlaySequence(button, delay) {
-  var ele = document.getElementById(button);
-  setTimeout(function() {
-    ele.classList.add("elementToFadeInAndOut");
-  }, delay)
-  setTimeout(function() {
-    resetClasses();
-  }, delay + 200)
-}
 
-function playSequence() {
-    for (var i = 0; i < sequenceArray.length; i++) {
-    delayedPlaySequence(sequenceArray[i], i * 1000);
-  };
-}
 
-function resetClasses() {
-  for (var i = 0; i < buttons.length; i++) {
-    var ele = document.getElementById(buttons[i])
-    ele.className = "buttons"
-  }
-}
 
-document.getElementById('checkloss').addEventListener("click", checkLoss);
-document.getElementById('start').addEventListener("click", playSequence);
-document.getElementById('resetclasses').addEventListener("click", resetClasses);
 
-allowClicks();
-checkLoss();
-//wrap click in a function that checks a variable
-//check each time they click
-//might need to add a delay for variable
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
