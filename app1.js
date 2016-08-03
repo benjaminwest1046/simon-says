@@ -1,40 +1,53 @@
-$(document).ready(function(){
-   console.log("jquery is ready")
-});
-//this was part of the second way
-/*function loadListeners() {
-    console.log("Did this load")
-    for (var i = 0; i < buttonArray.length; i++) {
-      buttonArray[i].addEventListener("click", function() {
-        userClicks.push(this.id)
-        console.log("user clicks: ", userClicks)
-      })
-    }
-  }*/
-
-var topRight    = document.getElementById("top-right").id;
-var topLeft     =  document.getElementById("top-left").id;
-var bottomRight = document.getElementById("bottom-right").id;
-var bottomLeft  = document.getElementById("bottom-left").id;
-var buttons = [topRight, topLeft, bottomRight, bottomLeft];
-var userClicks = [];
+// Global Variables
+var topRight, topLeft, bottomRight, bottomLeft, buttonArray, buttons;
+var userClickCount = 0;
 var sequenceArray = [];
-var buttonArray = document.getElementsByClassName("buttons");
-var ready = false;
 var listener = false;
 
-function allowClicks() {
-  for (var i = 0; i < buttonArray.length; i++) {
-      buttonArray[i].addEventListener("click", function(){
-      userClicks.push(this.id)
-      console.log("user clicks = ", userClicks, "sequence =  ", sequenceArray)
-      if (userClicks.length === sequenceArray.length) {
-        checkLoss();
-      }
-      });
+// Wait for DOM ready
+$(document).ready(function(){
+  console.log("jquery is ready");
 
+  // Read DOM and assign to Global Vars
+  topRight    = document.getElementById("top-right").id;
+  topLeft     = document.getElementById("top-left").id;
+  bottomRight = document.getElementById("bottom-right").id;
+  bottomLeft  = document.getElementById("bottom-left").id;
+  buttonArray = document.getElementsByClassName("buttons");
+  buttons = [topRight, topLeft, bottomRight, bottomLeft];
+
+  registerClickHandlers();
+});
+
+function handleClick(button) {
+  console.log('You just clicked', button.id);
+  console.log('userClickCount:', userClickCount);
+  console.log("sequence =  ", sequenceArray);
+  if (!checkForMatch(button.id)) {
+    alert('You lose!');
+  }
+  else if (userClickCount === sequenceArray.length-1) {
+    setTimeout(function() {
+      userClickCount = 0;
+      playSequence();
+    }, 1000);
+  }
+  else {
+    userClickCount += 1;
   }
 }
+
+function registerClickHandlers() {
+  console.log('registerClickHandlers');
+  for (var i = 0; i < buttonArray.length; i++) {
+      buttonArray[i].addEventListener("click", function() {
+        console.log('registering click handler for button', this);
+        handleClick(this);
+      });
+  }
+  document.getElementById('start').addEventListener("click", newGame);
+}
+
 //This was the new method
 /*function allowClicks() {
   userClicks = []
@@ -64,21 +77,8 @@ function tryThis() {
     checkLoss();
   }
 }*/
-function checkLoss () {
-  if (ready) {
-    for (var i = 0; i < userClicks.length; i++) {
-      if (userClicks[i] != sequenceArray[i]) {
-        alert("You lose");
-        //window.location.reload(false);
-        //userClicks = [];
-        i = 100
-      } else {
-          setTimeout(function() {
-            playSequence();
-          }, 500)
-        }
-    }
-  }
+function checkForMatch(buttonId) {
+  return buttonId == sequenceArray[userClickCount];
 }
 
 //Sequencing
@@ -93,6 +93,12 @@ function delayedPlaySequence(button, delay) {
 
 }
 
+function newGame() {
+  userClickCount = 0;
+  sequenceArray.length = 0;
+  playSequence();
+}
+
 function playSequence() {
     var nextButton = buttons[Math.floor(Math.random() * buttons.length)];
     sequenceArray.push(nextButton)
@@ -100,10 +106,6 @@ function playSequence() {
     for (var i = 0; i < sequenceArray.length; i++) {
       delayedPlaySequence(sequenceArray[i], i * 1000);
     };
-    setTimeout(function() {
-      ready = true;
-      allowClicks();
-    }, i * 1000)
 }
 
 function resetClasses() {
@@ -113,9 +115,6 @@ function resetClasses() {
   }
 }
 
-document.getElementById('checkloss').addEventListener("click", checkLoss);
-document.getElementById('start').addEventListener("click", playSequence);
-document.getElementById('resetclasses').addEventListener("click", resetClasses);
 //wrap click in a function that checks a variable
 //check each time they click
 //might need to add a delay for variable
