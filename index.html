@@ -5,27 +5,25 @@
       <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body>
-    <button id="start">Start</button>
+    <div class="text-wrapper">
+      <h1>Simon-Says</h1>
+      <p id="round"></p>
+      <button id="start">Start</button>
+    </div>
     <div class="wrapper-circle">
     <div class="row">
       <div class="buttons" id="top-right" >
-      <p>top-right</p>
       </div>
       <div class="buttons" id="top-left">
-      <p>top-left</p>
       </div>
     </div>
     <div class="row">
-      <div class="buttons" id="bottom-left">
-      <p>bottom-left</p>
+      <div class="buttons" id="bottom-left" onmousedown="mouseDown()">
       </div>
       <div class="buttons" id="bottom-right">
-      <p>bottom-right</p>
       </div>
     </div>
     </div>
-    <button id="checkloss">Check Loss</button>
-    <button id="resetclasses">Reset Classes</button>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" defer></script>
     <script src="app1.js" defer></script>
     </body>
